@@ -23,6 +23,8 @@ export const signup = async (req, res) => {
     res.cookie("financetoken", token,{
       httpOnly: true,
       expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), 
+      sameSite: "strict",  
+      path: "/",
     });
 
     res.status(201).json({ message: "User registered successfully", user: { username, email,userId:newUser._id } });
@@ -48,6 +50,8 @@ export const login = async (req, res) => {
         httpOnly: true,
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), 
         secure: process.env.NODE_ENV === "production"? true : false, 
+        sameSite: "strict", 
+        path: "/",
       }
     );
 
