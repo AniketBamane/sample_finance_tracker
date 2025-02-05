@@ -14,11 +14,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
-import { useUser } from "@/context/useContext"; // Import UserContext
+import { useUser } from "@/context/useContext";
 import { useRouter } from "next/navigation";
-import { toast } from "@/hooks/use-toast";
-import { useState } from "react"; // Import useState to manage loading state
-import { Loader2 } from "lucide-react"; // Import the loader icon from Lucide React
+import { useState } from "react";
+import { Loader2 } from "lucide-react"; 
 
 const formSchema = z.object({
   email: z.string().email({
@@ -40,15 +39,14 @@ const Login = () => {
     },
   });
 
-  const [error, setError] = useState(null); // Error state
-  const [loading, setLoading] = useState(false); // Loading state
-  const { setUser } = useUser(); // Access the setUser function to store user data
-
+  const [error, setError] = useState(null); 
+  const [loading, setLoading] = useState(false);
+  const { setUser } = useUser(); 
   async function onSubmit(values) {
     const { email, password } = values;
 
-    setLoading(true); // Start loading when the form is submitted
-    setError(null); // Reset error message
+    setLoading(true); 
+    setError(null); 
 
     try {
       const response = await fetch("http://localhost:3001/api/auth/login", {
@@ -61,16 +59,16 @@ const Login = () => {
       });
       const data = await response.json();
       if (!response.ok) {
-       return setError(data.message); // Set error if login fails
+       return setError(data.message); 
       }
       setSuccessMessage(data.message);
-      setUser(data.user); // Store user data in context
-      router.replace("/"); // Redirect to home
+      setUser(data.user); 
+      router.replace("/"); 
     } catch (error) {
       console.error("Error during login:", error);
       setError("An error occurred. Please try again later.");
     } finally {
-      setLoading(false); // Stop loading after the request completes
+      setLoading(false);
     }
   }
 
@@ -92,7 +90,7 @@ const Login = () => {
                     <FormControl>
                       <Input
                         placeholder="Enter your email"
-                        disabled={loading} // Disable input when loading
+                        disabled={loading} 
                         {...field}
                       />
                     </FormControl>
@@ -110,7 +108,7 @@ const Login = () => {
                       <Input
                         type="password"
                         placeholder="Enter your password"
-                        disabled={loading} // Disable input when loading
+                        disabled={loading}
                         {...field}
                       />
                     </FormControl>

@@ -16,7 +16,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2 } from "lucide-react"; // Importing the Lucide loader icon
+import { Loader2 } from "lucide-react"; 
 import { useUser } from "@/context/useContext";
 
 const formSchema = z.object({
@@ -44,11 +44,10 @@ const Register = () => {
 
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(false); 
 const { setUser } = useUser();
-  // Handle form submission
   async function onSubmit(values) {
-    setLoading(true); // Set loading to true when submitting
+    setLoading(true); 
     try {
       const response = await fetch("http://localhost:3001/api/auth/signup", {
         method: "POST",
@@ -62,16 +61,16 @@ const { setUser } = useUser();
       const data = await response.json();
 
       if (response.ok) {
-        setSuccessMessage(data.message); // Show success message
+        setSuccessMessage(data.message); 
         setUser(data.user)
         router.replace("/");
       } else {
-        setError(data.message); // Show error message
+        setError(data.message); 
       }
     } catch (err) {
       setError("Something went wrong. Please try again.");
     } finally {
-      setLoading(false); // Set loading to false when done
+      setLoading(false); 
     }
   }
 
@@ -94,7 +93,7 @@ const { setUser } = useUser();
                       <Input
                         placeholder="Enter your username"
                         {...field}
-                        disabled={loading} // Disable input while loading
+                        disabled={loading} 
                       />
                     </FormControl>
                     <FormMessage />
@@ -111,7 +110,7 @@ const { setUser } = useUser();
                       <Input
                         placeholder="Enter your email"
                         {...field}
-                        disabled={loading} // Disable input while loading
+                        disabled={loading} 
                       />
                     </FormControl>
                     <FormMessage />
@@ -129,7 +128,7 @@ const { setUser } = useUser();
                         type="password"
                         placeholder="Enter your password"
                         {...field}
-                        disabled={loading} // Disable input while loading
+                        disabled={loading} 
                       />
                     </FormControl>
                     <FormMessage />
