@@ -2,7 +2,7 @@
 import { NextResponse } from "next/server";
 
 export function middleware(req) {
-  const token = req.cookies.get("financetoken");  
+  const token = req.cookies.get("financetoken");  // Get token from cookies
 
   // Check if user is trying to access login or signup and already has a token
   if (

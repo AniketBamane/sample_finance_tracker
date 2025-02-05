@@ -15,7 +15,7 @@ export const UserProvider = ({ children }) => {
   // Fetch user details from API
   const fetchUserDetails = async () => {
     try {
-      const response = await fetch(`https://finance-tracker-oj3g.onrender.com/api/auth/user-details`, {
+      const response = await fetch(`http://localhost:3001/api/auth/user-details`, {
         method: "GET",
         credentials: "include",
       });

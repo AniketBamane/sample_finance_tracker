@@ -8,26 +8,36 @@ const generateToken = (userId) => {
 
 export const signup = async (req, res) => {
   try {
-    console.log("in signup")
+    console.log("in signup");
     const { username, email, password } = req.body;
 
     const existingUser = await User.findOne({ email });
-    if (existingUser) return res.status(400).json({ message: "User already exists" });
+    if (existingUser)
+      return res.status(400).json({ message: "User already exists" });
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = await User.create({ username, email, password: hashedPassword });
+    const newUser = await User.create({
+      username,
+      email,
+      password: hashedPassword,
+    });
 
     const token = generateToken(newUser._id);
 
-    res.cookie("financetoken", token,{
+    res.cookie("financetoken", token, {
       httpOnly: true,
-      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), 
-      sameSite: "strict",  
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      sameSite: "strict",
       path: "/",
     });
 
-    res.status(201).json({ message: "User registered successfully", user: { username, email,userId:newUser._id } });
+    res
+      .status(201)
+      .json({
+        message: "User registered successfully",
+        user: { username, email, userId: newUser._id },
+      });
   } catch (error) {
     res.status(500).json({ message: "Signup failed", error });
   }
@@ -41,21 +51,23 @@ export const login = async (req, res) => {
     if (!user) return res.status(400).json({ message: "User not found" });
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
+    if (!isMatch)
+      return res.status(400).json({ message: "Invalid credentials" });
 
     const token = generateToken(user._id);
 
-    res.cookie("financetoken", token,
-      {
-        httpOnly: true,
-        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), 
-        secure: process.env.NODE_ENV === "production"? true : false, 
-        sameSite: "strict", 
-        path: "/",
-      }
-    );
+    res.cookie("financetoken", token, {
+      httpOnly: true,
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      secure: process.env.NODE_ENV === "production" ? true : false,
+      sameSite: "strict",
+      path: "/",
+    });
 
-    res.json({ message: "Login successful", user: { username: user.username, email: user.email,userId:user._id } });
+    res.json({
+      message: "Login successful",
+      user: { username: user.username, email: user.email, userId: user._id },
+    });
   } catch (error) {
     res.status(500).json({ message: "Login failed", error });
   }
@@ -66,19 +78,20 @@ export const logout = (req, res) => {
   res.json({ message: "Logged out successfully" });
 };
 
-
 export const getUserDetails = async (req, res) => {
   try {
-    console.log("in get user details !")
+    console.log("in get user details !");
     const userId = req.user.userId;
-    
-    const user = await User.findById(userId).select("-password"); 
-    
+
+    const user = await User.findById(userId).select("-password");
+
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.status(200).json({ user: { username: user.username, email: user.email,userId } });
+    res
+      .status(200)
+      .json({ user: { username: user.username, email: user.email, userId } });
   } catch (error) {
     res.status(500).json({ message: "Error retrieving user details", error });
   }
