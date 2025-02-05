@@ -15,7 +15,7 @@ export default function Header() {
   const onLogout = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:3001/api/auth/logout", {
+      const response = await fetch(`${process.env.BACKEND_URL}/api/auth/logout`, {
         method: "POST",
         credentials: "include"
       });

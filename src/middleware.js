@@ -1,9 +1,8 @@
 // middleware.js
 import { NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
 
 export function middleware(req) {
-  const token = req.cookies.get("financetoken");  // Get token from cookies
+  const token = req.cookies.get("financetoken");  
 
   // Check if user is trying to access login or signup and already has a token
   if (
