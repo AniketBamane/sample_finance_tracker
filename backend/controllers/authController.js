@@ -20,7 +20,10 @@ export const signup = async (req, res) => {
 
     const token = generateToken(newUser._id);
 
-    res.cookie("financetoken", token);
+    res.cookie("financetoken", token,{
+      httpOnly: true,
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), 
+    });
 
     res.status(201).json({ message: "User registered successfully", user: { username, email,userId:newUser._id } });
   } catch (error) {
@@ -40,7 +43,13 @@ export const login = async (req, res) => {
 
     const token = generateToken(user._id);
 
-    res.cookie("financetoken", token);
+    res.cookie("financetoken", token,
+      {
+        httpOnly: true,
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), 
+        secure: process.env.NODE_ENV === "production"? true : false, 
+      }
+    );
 
     res.json({ message: "Login successful", user: { username: user.username, email: user.email,userId:user._id } });
   } catch (error) {
