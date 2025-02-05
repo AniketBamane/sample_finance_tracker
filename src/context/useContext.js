@@ -15,7 +15,7 @@ export const UserProvider = ({ children }) => {
   // Fetch user details from API
   const fetchUserDetails = async () => {
     try {
-      const response = await fetch("http://localhost:3001/api/auth/user-details", {
+      const response = await fetch(`http://localhost:3001/api/auth/user-details`, {
         method: "GET",
         credentials: "include",
       });
@@ -25,10 +25,9 @@ export const UserProvider = ({ children }) => {
         setUser(data.user);
         console.log(data.user, "======= user data =========");
       } else {
-        setUser(null);
+        setUser(null)
       }
     } catch (error) {
-      console.error("Failed to fetch user details", error.message);
       setUser(null);
     }
   };

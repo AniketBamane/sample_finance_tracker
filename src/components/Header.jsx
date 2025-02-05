@@ -12,10 +12,10 @@ export default function Header() {
   const router = useRouter();
   const {user} = useUser(); // This should be replaced with your actual user context
 
-  const onLogout = async () => {
+  const onLogout = async () => { 
     try {
       setLoading(true);
-      const response = await fetch(`${process.env.BACKEND_URL}/api/auth/logout`, {
+      const response = await fetch(`http://localhost:3001/api/auth/logout`, {
         method: "POST",
         credentials: "include"
       });

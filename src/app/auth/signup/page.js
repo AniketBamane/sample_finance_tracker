@@ -49,7 +49,7 @@ const { setUser } = useUser();
   async function onSubmit(values) {
     setLoading(true); 
     try {
-      const response = await fetch(`${process.env.BACKEND_URL}/api/auth/signup`, {
+      const response = await fetch(`http://localhost:3001/api/auth/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
